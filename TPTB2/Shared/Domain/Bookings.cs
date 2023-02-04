@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace TPTB2.Shared.Domain
 {
-    public class Booking : BaseDomainModel
+    public class Bookings : BaseDomainModel
     {
         public DateTime DateOut { get; set; }
         public DateTime DateIn { get; set; }
-        public float TotalCost { get; set; }
+        public string TotalCost { get; set; }
         public int UserID { get; set; }
-        public virtual User User { get; set; }
+        public virtual Users User { get; set; }
     }
 }

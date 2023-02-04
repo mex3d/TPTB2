@@ -20,16 +20,16 @@ namespace TPTB2.Server.Data
         {
         }
 
-        public DbSet<Booking> Bookings { get; set; }
-        public DbSet<Payment> Payments { get; set; }
+        public DbSet<Bookings> Bookings { get; set; }
+        public DbSet<Payments> Payments { get; set; }
         public DbSet<Reviews> Reviews { get; set; }
-        public DbSet<User> Users { get; set; }
+        public DbSet<Users> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
 
-            builder.ApplyConfiguration(new UserSeedConfiguration());
+            builder.ApplyConfiguration(new UsersSeedConfiguration());
         }
     }
 }

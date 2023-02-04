@@ -1,44 +1,32 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TPTB2.Shared.Domain;
+using TPTB2.Server.Models;
 
 namespace TPTB2.Server.Configurations.Entities
 {
-    public class UserSeedConfiguration : IEntityTypeConfiguration<User>
+    public class UserSeedConfiguration : IEntityTypeConfiguration<ApplicationUser>
     {
-        public void Configure(EntityTypeBuilder<User> builder)
+        public void Configure(EntityTypeBuilder<ApplicationUser> builder)
         {
+            var hasher = new PasswordHasher<ApplicationUser>();
             builder.HasData(
-                     new User
-                     {
-                     Id = 1,
-                     Username = "DickRooster",
-                     Contact = "99999998",
-                     DateOfBirth = "22.03.1969",
-                     Email = "FloppyDisk@gmail.com",
-                     DateCreated = DateTime.Now,
-                     DateUpdated = DateTime.Now,
-                     CreatedBy = "System",
-                     UpdatedBy = "System"
-                    },
-                     new User
-                     {
-                         Id = 2,
-                         Username = "ArnoldSchwarzenegger",
-                         Contact = "99999997",
-                         DateOfBirth = "30.07.1947",
-                         Email = "GigaChad@gmail.com",
-                         DateCreated = DateTime.Now,
-                         DateUpdated = DateTime.Now,
-                         CreatedBy = "System",
-                         UpdatedBy = "System"
-                     }
-         );
-
+            new ApplicationUser
+            {
+                Id = "3781efa7-66dc-47f0-860f-e506d04102e4",
+                Email = "admin@localhost.com",
+                NormalizedEmail = "ADMIN@LOCALHOST.COM",
+                FirstName = "Admin",
+                LastName = "User",
+                UserName = "Admin",
+                NormalizedUserName = "ADMIN",
+                PasswordHash = hasher.HashPassword(null, "P@ssword1")
+            }
+            );
         }
     }
 }
