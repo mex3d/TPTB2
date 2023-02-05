@@ -9,7 +9,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Linq;
 using TPTB2.Server.Data;
+using TPTB2.Server.IRepository;
 using TPTB2.Server.Models;
+using TPTB2.Server.Repository;
 
 namespace TPTB2.Server
 {
@@ -40,6 +42,8 @@ namespace TPTB2.Server
 
             services.AddAuthentication()
                 .AddIdentityServerJwt();
+
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
 
             services.AddControllersWithViews();
             services.AddRazorPages();

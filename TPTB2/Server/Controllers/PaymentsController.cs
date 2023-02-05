@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TPTB2.Server.Data;
+using TPTB2.Server.IRepository;
 using TPTB2.Shared.Domain;
 
 namespace TPTB2.Server.Controllers
@@ -14,53 +15,73 @@ namespace TPTB2.Server.Controllers
     [ApiController]
     public class PaymentsController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        //Refactored
+        //private readonly ApplicationDbContext _context;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public PaymentsController(ApplicationDbContext context)
+        //Refactored
+        //public PaymentsController(ApplicationDbContext context)
+        public PaymentsController(IUnitOfWork unitOfWork)
         {
-            _context = context;
+            //_context = context;
+            _unitOfWork = unitOfWork;
         }
 
         // GET: api/Payments
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Payments>>> GetPayments()
+        //Refactored
+        //public async Task<ActionResult<IEnumerable<Payments>>> GetPayments()
+        public async Task<IActionResult> GetPayments()
         {
-            return await _context.Payments.ToListAsync();
+            //Refactored
+            //return await _context.Payments.ToListAsync();
+            var payments = await _unitOfWork.Payments.GetAll();
+            return Ok(payments);
         }
 
         // GET: api/Payments/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Payments>> GetPayments(int id)
+        //Refactored
+        //public async Task<ActionResult<Payments>> GetPayments(int id)
+        public async Task<IActionResult> GetPayments(int id)
         {
-            var payments = await _context.Payments.FindAsync(id);
+            //Refactored
+            //var payments = await _context.Payments.FindAsync(id);
+            var payments = await _unitOfWork.Payments.GetAll(q => q.Id == id);
 
             if (payments == null)
             {
                 return NotFound();
             }
 
-            return payments;
+            return Ok(payments);
         }
 
         // PUT: api/Payments/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutPayments(int id, Payments payments)
+        public async Task<IActionResult> PutUsers(int id, Payments payments)
         {
             if (id != payments.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(payments).State = EntityState.Modified;
+            //Refactored
+            //_context.Entry(payments).State = EntityState.Modified;
+            _unitOfWork.Payments.Update(payments);
 
             try
             {
-                await _context.SaveChangesAsync();
+                //Refactored
+                //await _context.SaveChangesAsync();
+                await _unitOfWork.Save(HttpContext);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!PaymentsExists(id))
+                //Refactored
+                //if (!UsersExists(id)) 
+                if (!await PaymentExists(id))
                 {
                     return NotFound();
                 }
@@ -78,8 +99,11 @@ namespace TPTB2.Server.Controllers
         [HttpPost]
         public async Task<ActionResult<Payments>> PostPayments(Payments payments)
         {
-            _context.Payments.Add(payments);
-            await _context.SaveChangesAsync();
+            //Refactored
+            //_context.Payments.Add(payments);
+            //await _context.SaveChangesAsync();
+            await _unitOfWork.Payments.Insert(payments);
+            await _unitOfWork.Save(HttpContext);
 
             return CreatedAtAction("GetPayments", new { id = payments.Id }, payments);
         }
@@ -88,21 +112,31 @@ namespace TPTB2.Server.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePayments(int id)
         {
-            var payments = await _context.Payments.FindAsync(id);
+            //Refactored
+            //var payments = await _context.Payments.FindAsync(id);
+            var payments = await _unitOfWork.Payments.Get(q => q.Id == id);
             if (payments == null)
             {
                 return NotFound();
             }
 
-            _context.Payments.Remove(payments);
-            await _context.SaveChangesAsync();
+            //Refactored
+            //_context.Payments.Remove(payments);
+            //await _context.SaveChangesAsync();
+            await _unitOfWork.Payments.Delete(id);
+            await _unitOfWork.Save(HttpContext);
 
             return NoContent();
         }
 
-        private bool PaymentsExists(int id)
+        //Refactored
+        //private bool UsersExists(int id)
+        private async Task<bool> PaymentExists(int id)
         {
-            return _context.Payments.Any(e => e.Id == id);
+            //Refactored
+            //return _context.Payments.Any(e => e.Id == id);
+            var payments = await _unitOfWork.Payments.Get(q => q.Id == id);
+            return payments != null;
         }
     }
 }

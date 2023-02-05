@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TPTB2.Server.Data;
+using TPTB2.Server.IRepository;
 using TPTB2.Shared.Domain;
 
 namespace TPTB2.Server.Controllers
@@ -14,32 +15,46 @@ namespace TPTB2.Server.Controllers
     [ApiController]
     public class ReviewsController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        //Refactored
+        //private readonly ApplicationDbContext _context;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public ReviewsController(ApplicationDbContext context)
+        //Refactored
+        //public ReviewsController(ApplicationDbContext context)
+        public ReviewsController(IUnitOfWork unitOfWork)
         {
-            _context = context;
+            //_context = context;
+            _unitOfWork = unitOfWork;
         }
 
         // GET: api/Reviews
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Reviews>>> GetReviews()
+        //Refactored
+        //public async Task<ActionResult<IEnumerable<Reviews>>> GetReviews()
+        public async Task<IActionResult> GetReviews()
         {
-            return await _context.Reviews.ToListAsync();
+            //Refactored
+            //return await _context.Reviews.ToListAsync();
+            var reviews = await _unitOfWork.Reviews.GetAll();
+            return Ok(reviews);
         }
 
         // GET: api/Reviews/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Reviews>> GetReviews(int id)
+        //Refactored
+        //public async Task<ActionResult<Reviews>> GetReviews(int id)
+        public async Task<IActionResult> GetReviews(int id)
         {
-            var reviews = await _context.Reviews.FindAsync(id);
+            //Refactored
+            //var reviews = await _context.Reviews.FindAsync(id);
+            var reviews = await _unitOfWork.Reviews.GetAll(q => q.Id == id);
 
             if (reviews == null)
             {
                 return NotFound();
             }
 
-            return reviews;
+            return Ok(reviews);
         }
 
         // PUT: api/Reviews/5
@@ -52,15 +67,21 @@ namespace TPTB2.Server.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(reviews).State = EntityState.Modified;
+            //Refactored
+            //_context.Entry(reviews).State = EntityState.Modified;
+            _unitOfWork.Reviews.Update(reviews);
 
             try
             {
-                await _context.SaveChangesAsync();
+                //Refactored
+                //await _context.SaveChangesAsync();
+                await _unitOfWork.Save(HttpContext);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ReviewsExists(id))
+                //Refactored
+                //if (!UsersExists(id)) 
+                if (!await ReviewExist(id))
                 {
                     return NotFound();
                 }
@@ -78,8 +99,11 @@ namespace TPTB2.Server.Controllers
         [HttpPost]
         public async Task<ActionResult<Reviews>> PostReviews(Reviews reviews)
         {
-            _context.Reviews.Add(reviews);
-            await _context.SaveChangesAsync();
+            //Refactored
+            //_context.Reviews.Add(reviews);
+            //await _context.SaveChangesAsync();
+            await _unitOfWork.Reviews.Insert(reviews);
+            await _unitOfWork.Save(HttpContext);
 
             return CreatedAtAction("GetReviews", new { id = reviews.Id }, reviews);
         }
@@ -88,21 +112,31 @@ namespace TPTB2.Server.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteReviews(int id)
         {
-            var reviews = await _context.Reviews.FindAsync(id);
+            //Refactored
+            //var reviews = await _context.Reviews.FindAsync(id);
+            var reviews = await _unitOfWork.Reviews.Get(q => q.Id == id);
             if (reviews == null)
             {
                 return NotFound();
             }
 
-            _context.Reviews.Remove(reviews);
-            await _context.SaveChangesAsync();
+            //Refactored
+            //_context.Reviews.Remove(reviews);
+            //await _context.SaveChangesAsync();
+            await _unitOfWork.Reviews.Delete(id);
+            await _unitOfWork.Save(HttpContext);
 
             return NoContent();
         }
 
-        private bool ReviewsExists(int id)
+        //Refactored
+        //private bool UsersExists(int id)
+        private async Task<bool> ReviewExist(int id)
         {
-            return _context.Reviews.Any(e => e.Id == id);
+            //Refactored
+            //return _context.Reviews.Any(e => e.Id == id);
+            var reviews = await _unitOfWork.Reviews.Get(q => q.Id == id);
+            return reviews != null;
         }
     }
 }
