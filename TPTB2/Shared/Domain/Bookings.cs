@@ -12,6 +12,6 @@ namespace TPTB2.Shared.Domain
         public DateTime DateIn { get; set; }
         public string TotalCost { get; set; }
         public int UserID { get; set; }
-        public virtual Users User { get; set; }
+        public virtual Users Users { get; set; }
     }
 }

@@ -30,6 +30,9 @@ namespace TPTB2.Server.Data
             base.OnModelCreating(builder);
 
             builder.ApplyConfiguration(new UsersSeedConfiguration());
+            builder.ApplyConfiguration(new ReviewSeedConfiguration());
+            builder.ApplyConfiguration(new PaymentSeedConfiguration());
+            builder.ApplyConfiguration(new BookingSeedConfiguration());
         }
     }
 }
