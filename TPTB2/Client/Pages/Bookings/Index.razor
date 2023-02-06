@@ -2,9 +2,14 @@
 @inject HttpClient _client
 @inject IJSRuntime js
 @attribute [Authorize]
-@using TPTB2.Shared.Domain
 
 <h3>Current Bookings</h3>
+<a href="/bookings/create" class="btn btn-secondary">
+    <span class="oi oi-plus"></span>
+    Create New Booking
+</a>
+<br />
+<br />
 @if (Bookings == null)
 {
     <div class="alert alert-info">Loading Makes...</div>
@@ -22,22 +27,22 @@ else
         <tbody>
             @foreach (var booking in Bookings)
             {
-            <tr>
-                <td>@booking.TotalCost</td>
-                <td>@booking.DateIn</td>
-                <td>@booking.DateOut</td>
-                <td>
-                    <a href="/booking/view/@booking.Id" class="btn btn-primary">
-                        <span class="oi oi-book"></span>
-                    </a>
-                    <a href="/booking/edit/@booking.Id" class="btn btn-warning">
-                        <span class="oi oi-pencil"></span>
-                    </a>
-                    <button class="btn btn-danger" @onclick="@(()=>Delete(booking.Id))">
-                        <span class="oi oi-delete"></span>
-                    </button>
-                </td>
-            </tr>
+                <tr>
+                    <td>@booking.TotalCost</td>
+                    <td>@booking.DateIn</td>
+                    <td>@booking.DateOut</td>
+                    <td>
+                        <a href="/booking/view/@booking.Id" class="btn btn-primary">
+                            <span class="oi oi-book"></span>
+                        </a>
+                        <a href="/booking/edit/@booking.Id" class="btn btn-warning">
+                            <span class="oi oi-pencil"></span>
+                        </a>
+                        <button class="btn btn-danger" @onclick="@(()=>Delete(booking.Id))">
+                            <span class="oi oi-delete"></span>
+                        </button>
+                    </td>
+                </tr>
             }
         </tbody>
     </table>
@@ -45,8 +50,7 @@ else
 <br />
 
 @code {
-    private List<Bookings> Bookings
-        ;
+    private List<Bookings> Bookings;
 
     protected async override Task OnInitializedAsync()
     {
@@ -55,11 +59,11 @@ else
 
     async Task Delete(int bookingId)
     {
-        var bookings = Bookings.First(q => q.Id == bookingId);  
+        var bookings = Bookings.First(q => q.Id == bookingId);
         var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {bookings.TotalCost} ?");
         if (confirm)
         {
-            await _client.DeleteAsync($"{Endpoints.UsersEndpoint}/{bookingId}");
+            await _client.DeleteAsync($"{Endpoints.BookingsEndpoint}/{bookingId}");
             await OnInitializedAsync();
         }
     }

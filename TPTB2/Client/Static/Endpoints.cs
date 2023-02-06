@@ -9,7 +9,7 @@ namespace TPTB2.Client.Static
     {
         private static readonly string Prefix = "api";
 
-        public static readonly string UsersEndpoint = $"{Prefix}/users";
+        public static readonly string UsersEndpoint = $"{Prefix}/Users";
         public static readonly string BookingsEndpoint = $"{Prefix}/bookings";
         public static readonly string ReviewsEndpoint = $"{Prefix}/reviews";
         public static readonly string PaymentsEndpoint = $"{Prefix}/payments";

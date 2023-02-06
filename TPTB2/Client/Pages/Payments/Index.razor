@@ -5,6 +5,12 @@
 @using TPTB2.Shared.Domain
 
 <h3>Payment Details</h3>
+<a href="/payments/create" class="btn btn-secondary">
+    <span class="oi oi-plus"></span>
+    Create New Payment
+</a>
+<br />
+<br />
 @if (Payments == null)
 {
     <div class="alert alert-info">Loading Makes...</div>
@@ -22,22 +28,22 @@ else
         <tbody>
             @foreach (var payment in Payments)
             {
-            <tr>
-                <td>@payment.Name</td>
-                <td>@payment.CardNumber</td>
-                <td>@payment.SecurityCode</td>
-                <td>
-                    <a href="/payment/view/@payment.Id" class="btn btn-primary">
-                        <span class="oi oi-book"></span>
-                    </a>
-                    <a href="/payment/edit/@payment.Id" class="btn btn-warning">
-                        <span class="oi oi-pencil"></span>
-                    </a>
-                    <button class="btn btn-danger" @onclick="@(()=>Delete(payment.Id))">
-                        <span class="oi oi-delete"></span>
-                    </button>
-                </td>
-            </tr>
+                <tr>
+                    <td>@payment.Name</td>
+                    <td>@payment.CardNumber</td>
+                    <td>@payment.SecurityCode</td>
+                    <td>
+                        <a href="/payment/view/@payment.Id" class="btn btn-primary">
+                            <span class="oi oi-book"></span>
+                        </a>
+                        <a href="/payment/edit/@payment.Id" class="btn btn-warning">
+                            <span class="oi oi-pencil"></span>
+                        </a>
+                        <button class="btn btn-danger" @onclick="@(()=>Delete(payment.Id))">
+                            <span class="oi oi-delete"></span>
+                        </button>
+                    </td>
+                </tr>
             }
         </tbody>
     </table>

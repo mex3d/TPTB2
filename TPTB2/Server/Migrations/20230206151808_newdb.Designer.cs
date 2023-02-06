@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TPTB2.Server.Data;
 
-namespace TPTB2.Server.Data.Migrations
+namespace TPTB2.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230205070158_Configs")]
-    partial class Configs
+    [Migration("20230206151808_newdb")]
+    partial class newdb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -375,11 +375,11 @@ namespace TPTB2.Server.Data.Migrations
                         {
                             Id = 1,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2023, 2, 5, 15, 1, 57, 380, DateTimeKind.Local).AddTicks(5718),
+                            DateCreated = new DateTime(2023, 2, 6, 23, 18, 7, 635, DateTimeKind.Local).AddTicks(3083),
                             DateIn = new DateTime(2023, 4, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DateOut = new DateTime(2023, 4, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DateUpdated = new DateTime(2023, 2, 5, 15, 1, 57, 380, DateTimeKind.Local).AddTicks(5725),
-                            TotalCost = "$70.00",
+                            DateUpdated = new DateTime(2023, 2, 6, 23, 18, 7, 635, DateTimeKind.Local).AddTicks(3092),
+                            TotalCost = "Japan $70.00",
                             UpdatedBy = "System",
                             UserID = 0
                         },
@@ -387,11 +387,11 @@ namespace TPTB2.Server.Data.Migrations
                         {
                             Id = 2,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2023, 2, 5, 15, 1, 57, 380, DateTimeKind.Local).AddTicks(5730),
+                            DateCreated = new DateTime(2023, 2, 6, 23, 18, 7, 635, DateTimeKind.Local).AddTicks(3097),
                             DateIn = new DateTime(2023, 7, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DateOut = new DateTime(2023, 7, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DateUpdated = new DateTime(2023, 2, 5, 15, 1, 57, 380, DateTimeKind.Local).AddTicks(5731),
-                            TotalCost = "$76.00",
+                            DateUpdated = new DateTime(2023, 2, 6, 23, 18, 7, 635, DateTimeKind.Local).AddTicks(3099),
+                            TotalCost = "Italy $76.00",
                             UpdatedBy = "System",
                             UserID = 0
                         });
@@ -438,9 +438,9 @@ namespace TPTB2.Server.Data.Migrations
                             Id = 1,
                             CardNumber = "2563 6143 3434 8172",
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2023, 2, 5, 15, 1, 57, 380, DateTimeKind.Local).AddTicks(1514),
+                            DateCreated = new DateTime(2023, 2, 6, 23, 18, 7, 634, DateTimeKind.Local).AddTicks(8099),
                             DateOfExpiry = new DateTime(2025, 5, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DateUpdated = new DateTime(2023, 2, 5, 15, 1, 57, 380, DateTimeKind.Local).AddTicks(1523),
+                            DateUpdated = new DateTime(2023, 2, 6, 23, 18, 7, 634, DateTimeKind.Local).AddTicks(8108),
                             Name = "Tan Ping Jing",
                             SecurityCode = "465",
                             UpdatedBy = "System"
@@ -450,9 +450,9 @@ namespace TPTB2.Server.Data.Migrations
                             Id = 2,
                             CardNumber = "6363 5261 9765 0162",
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2023, 2, 5, 15, 1, 57, 380, DateTimeKind.Local).AddTicks(1528),
+                            DateCreated = new DateTime(2023, 2, 6, 23, 18, 7, 634, DateTimeKind.Local).AddTicks(8114),
                             DateOfExpiry = new DateTime(2025, 7, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DateUpdated = new DateTime(2023, 2, 5, 15, 1, 57, 380, DateTimeKind.Local).AddTicks(1530),
+                            DateUpdated = new DateTime(2023, 2, 6, 23, 18, 7, 634, DateTimeKind.Local).AddTicks(8116),
                             Name = "Arnold Schwarzenegger",
                             SecurityCode = "816",
                             UpdatedBy = "System"
@@ -493,8 +493,8 @@ namespace TPTB2.Server.Data.Migrations
                         {
                             Id = 1,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2023, 2, 5, 15, 1, 57, 379, DateTimeKind.Local).AddTicks(6698),
-                            DateUpdated = new DateTime(2023, 2, 5, 15, 1, 57, 379, DateTimeKind.Local).AddTicks(6713),
+                            DateCreated = new DateTime(2023, 2, 6, 23, 18, 7, 634, DateTimeKind.Local).AddTicks(2735),
+                            DateUpdated = new DateTime(2023, 2, 6, 23, 18, 7, 634, DateTimeKind.Local).AddTicks(2755),
                             Name = "DickRooster",
                             Text = "The trip was fun and interactive. I thoroughly enjoyed myself at many point of interests, would recommend to anyone who is interested in visiting the country.",
                             UpdatedBy = "System"
@@ -503,8 +503,8 @@ namespace TPTB2.Server.Data.Migrations
                         {
                             Id = 2,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2023, 2, 5, 15, 1, 57, 379, DateTimeKind.Local).AddTicks(6717),
-                            DateUpdated = new DateTime(2023, 2, 5, 15, 1, 57, 379, DateTimeKind.Local).AddTicks(6719),
+                            DateCreated = new DateTime(2023, 2, 6, 23, 18, 7, 634, DateTimeKind.Local).AddTicks(2760),
+                            DateUpdated = new DateTime(2023, 2, 6, 23, 18, 7, 634, DateTimeKind.Local).AddTicks(2762),
                             Name = "ArnoldSchwarzenegger",
                             Text = "The trip was not as great as I had expected. The points of interest did not look as good as they were on paper, so don't get your hopes up too much if you are planning to buy it. 5/10 overall.",
                             UpdatedBy = "System"
@@ -536,13 +536,7 @@ namespace TPTB2.Server.Data.Migrations
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("PayID")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("PaymentId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ReviewID")
+                    b.Property<int?>("PaymentsId")
                         .HasColumnType("int");
 
                     b.Property<int?>("ReviewsId")
@@ -556,7 +550,7 @@ namespace TPTB2.Server.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PaymentId");
+                    b.HasIndex("PaymentsId");
 
                     b.HasIndex("ReviewsId");
 
@@ -568,9 +562,9 @@ namespace TPTB2.Server.Data.Migrations
                             Id = 1,
                             Contact = "99999998",
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2023, 2, 5, 15, 1, 57, 376, DateTimeKind.Local).AddTicks(2751),
+                            DateCreated = new DateTime(2023, 2, 6, 23, 18, 7, 629, DateTimeKind.Local).AddTicks(7774),
                             DateOfBirth = "22.03.1969",
-                            DateUpdated = new DateTime(2023, 2, 5, 15, 1, 57, 377, DateTimeKind.Local).AddTicks(5517),
+                            DateUpdated = new DateTime(2023, 2, 6, 23, 18, 7, 632, DateTimeKind.Local).AddTicks(1974),
                             Email = "FloppyDisk@gmail.com",
                             UpdatedBy = "System",
                             Username = "DickRooster"
@@ -580,9 +574,9 @@ namespace TPTB2.Server.Data.Migrations
                             Id = 2,
                             Contact = "99999997",
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2023, 2, 5, 15, 1, 57, 377, DateTimeKind.Local).AddTicks(6418),
+                            DateCreated = new DateTime(2023, 2, 6, 23, 18, 7, 632, DateTimeKind.Local).AddTicks(3255),
                             DateOfBirth = "30.07.1947",
-                            DateUpdated = new DateTime(2023, 2, 5, 15, 1, 57, 377, DateTimeKind.Local).AddTicks(6423),
+                            DateUpdated = new DateTime(2023, 2, 6, 23, 18, 7, 632, DateTimeKind.Local).AddTicks(3261),
                             Email = "GigaChad@gmail.com",
                             UpdatedBy = "System",
                             Username = "4rnoldSchwarzenegger"
@@ -651,15 +645,15 @@ namespace TPTB2.Server.Data.Migrations
 
             modelBuilder.Entity("TPTB2.Shared.Domain.Users", b =>
                 {
-                    b.HasOne("TPTB2.Shared.Domain.Payments", "Payment")
+                    b.HasOne("TPTB2.Shared.Domain.Payments", "Payments")
                         .WithMany()
-                        .HasForeignKey("PaymentId");
+                        .HasForeignKey("PaymentsId");
 
                     b.HasOne("TPTB2.Shared.Domain.Reviews", "Reviews")
                         .WithMany()
                         .HasForeignKey("ReviewsId");
 
-                    b.Navigation("Payment");
+                    b.Navigation("Payments");
 
                     b.Navigation("Reviews");
                 });

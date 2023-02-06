@@ -5,6 +5,12 @@
 @using TPTB2.Shared.Domain
 
 <h3>Past Reviews</h3>
+<a href="/reviews/create" class="btn btn-secondary">
+    <span class="oi oi-plus"></span>
+    Create New Review
+</a>
+<br />
+<br />
 @if (Reviews == null)
 {
     <div class="alert alert-info">Loading Makes...</div>
@@ -21,21 +27,21 @@ else
         <tbody>
             @foreach (var review in Reviews)
             {
-            <tr>
-                <td>@review.Name</td>
-                <td>@review.Text</td>
-                <td>
-                    <a href="/payment/view/@review.Id" class="btn btn-primary">
-                        <span class="oi oi-book"></span>
-                    </a>
-                    <a href="/payment/edit/@review.Id" class="btn btn-warning">
-                        <span class="oi oi-pencil"></span>
-                    </a>
-                    <button class="btn btn-danger" @onclick="@(()=>Delete(review.Id))">
-                        <span class="oi oi-delete"></span>
-                    </button>
-                </td>
-            </tr>
+                <tr>
+                    <td>@review.Name</td>
+                    <td>@review.Text</td>
+                    <td>
+                        <a href="/payment/view/@review.Id" class="btn btn-primary">
+                            <span class="oi oi-book"></span>
+                        </a>
+                        <a href="/payment/edit/@review.Id" class="btn btn-warning">
+                            <span class="oi oi-pencil"></span>
+                        </a>
+                        <button class="btn btn-danger" @onclick="@(()=>Delete(review.Id))">
+                            <span class="oi oi-delete"></span>
+                        </button>
+                    </td>
+                </tr>
             }
         </tbody>
     </table>

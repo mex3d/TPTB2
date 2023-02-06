@@ -1,9 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-using System;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace TPTB2.Server.Data.Migrations
+namespace TPTB2.Server.Migrations
 {
-    public partial class CreateIdentitySchema : Migration
+    public partial class newdb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -26,6 +26,8 @@ namespace TPTB2.Server.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -66,6 +68,26 @@ namespace TPTB2.Server.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Payments",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CardNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SecurityCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DateOfExpiry = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Payments", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "PersistedGrants",
                 columns: table => new
                 {
@@ -83,6 +105,24 @@ namespace TPTB2.Server.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PersistedGrants", x => x.Key);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Reviews",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Text = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Reviews", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -191,6 +231,103 @@ namespace TPTB2.Server.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Username = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Contact = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DateOfBirth = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PaymentsId = table.Column<int>(type: "int", nullable: true),
+                    ReviewsId = table.Column<int>(type: "int", nullable: true),
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Users_Payments_PaymentsId",
+                        column: x => x.PaymentsId,
+                        principalTable: "Payments",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Users_Reviews_ReviewsId",
+                        column: x => x.ReviewsId,
+                        principalTable: "Reviews",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Bookings",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DateOut = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateIn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    TotalCost = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserID = table.Column<int>(type: "int", nullable: false),
+                    UsersId = table.Column<int>(type: "int", nullable: true),
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Bookings", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Bookings_Users_UsersId",
+                        column: x => x.UsersId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Bookings",
+                columns: new[] { "Id", "CreatedBy", "DateCreated", "DateIn", "DateOut", "DateUpdated", "TotalCost", "UpdatedBy", "UserID", "UsersId" },
+                values: new object[,]
+                {
+                    { 1, "System", new DateTime(2023, 2, 6, 23, 18, 7, 635, DateTimeKind.Local).AddTicks(3083), new DateTime(2023, 4, 26, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 4, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 2, 6, 23, 18, 7, 635, DateTimeKind.Local).AddTicks(3092), "Japan $70.00", "System", 0, null },
+                    { 2, "System", new DateTime(2023, 2, 6, 23, 18, 7, 635, DateTimeKind.Local).AddTicks(3097), new DateTime(2023, 7, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 7, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 2, 6, 23, 18, 7, 635, DateTimeKind.Local).AddTicks(3099), "Italy $76.00", "System", 0, null }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Payments",
+                columns: new[] { "Id", "CardNumber", "CreatedBy", "DateCreated", "DateOfExpiry", "DateUpdated", "Name", "SecurityCode", "UpdatedBy" },
+                values: new object[,]
+                {
+                    { 1, "2563 6143 3434 8172", "System", new DateTime(2023, 2, 6, 23, 18, 7, 634, DateTimeKind.Local).AddTicks(8099), new DateTime(2025, 5, 24, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 2, 6, 23, 18, 7, 634, DateTimeKind.Local).AddTicks(8108), "Tan Ping Jing", "465", "System" },
+                    { 2, "6363 5261 9765 0162", "System", new DateTime(2023, 2, 6, 23, 18, 7, 634, DateTimeKind.Local).AddTicks(8114), new DateTime(2025, 7, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 2, 6, 23, 18, 7, 634, DateTimeKind.Local).AddTicks(8116), "Arnold Schwarzenegger", "816", "System" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Reviews",
+                columns: new[] { "Id", "CreatedBy", "DateCreated", "DateUpdated", "Name", "Text", "UpdatedBy" },
+                values: new object[,]
+                {
+                    { 1, "System", new DateTime(2023, 2, 6, 23, 18, 7, 634, DateTimeKind.Local).AddTicks(2735), new DateTime(2023, 2, 6, 23, 18, 7, 634, DateTimeKind.Local).AddTicks(2755), "DickRooster", "The trip was fun and interactive. I thoroughly enjoyed myself at many point of interests, would recommend to anyone who is interested in visiting the country.", "System" },
+                    { 2, "System", new DateTime(2023, 2, 6, 23, 18, 7, 634, DateTimeKind.Local).AddTicks(2760), new DateTime(2023, 2, 6, 23, 18, 7, 634, DateTimeKind.Local).AddTicks(2762), "ArnoldSchwarzenegger", "The trip was not as great as I had expected. The points of interest did not look as good as they were on paper, so don't get your hopes up too much if you are planning to buy it. 5/10 overall.", "System" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "Contact", "CreatedBy", "DateCreated", "DateOfBirth", "DateUpdated", "Email", "PaymentsId", "ReviewsId", "UpdatedBy", "Username" },
+                values: new object[,]
+                {
+                    { 1, "99999998", "System", new DateTime(2023, 2, 6, 23, 18, 7, 629, DateTimeKind.Local).AddTicks(7774), "22.03.1969", new DateTime(2023, 2, 6, 23, 18, 7, 632, DateTimeKind.Local).AddTicks(1974), "FloppyDisk@gmail.com", null, null, "System", "DickRooster" },
+                    { 2, "99999997", "System", new DateTime(2023, 2, 6, 23, 18, 7, 632, DateTimeKind.Local).AddTicks(3255), "30.07.1947", new DateTime(2023, 2, 6, 23, 18, 7, 632, DateTimeKind.Local).AddTicks(3261), "GigaChad@gmail.com", null, null, "System", "4rnoldSchwarzenegger" }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -231,6 +368,11 @@ namespace TPTB2.Server.Data.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Bookings_UsersId",
+                table: "Bookings",
+                column: "UsersId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_DeviceCodes_DeviceCode",
                 table: "DeviceCodes",
                 column: "DeviceCode",
@@ -255,6 +397,16 @@ namespace TPTB2.Server.Data.Migrations
                 name: "IX_PersistedGrants_SubjectId_SessionId_Type",
                 table: "PersistedGrants",
                 columns: new[] { "SubjectId", "SessionId", "Type" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_PaymentsId",
+                table: "Users",
+                column: "PaymentsId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_ReviewsId",
+                table: "Users",
+                column: "ReviewsId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -275,6 +427,9 @@ namespace TPTB2.Server.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Bookings");
+
+            migrationBuilder.DropTable(
                 name: "DeviceCodes");
 
             migrationBuilder.DropTable(
@@ -285,6 +440,15 @@ namespace TPTB2.Server.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "Payments");
+
+            migrationBuilder.DropTable(
+                name: "Reviews");
         }
     }
 }

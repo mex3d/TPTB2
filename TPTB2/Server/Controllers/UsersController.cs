@@ -35,7 +35,7 @@ namespace TPTB2.Server.Controllers
         {
             //Refactored
             //return await _context.Users.ToListAsync();
-            var users = await _unitOfWork.Users.GetAll();
+            var users = await _unitOfWork.Users.GetAll(includes: q => q.Include(x => x.Reviews));
             return Ok(users);
         }
 
