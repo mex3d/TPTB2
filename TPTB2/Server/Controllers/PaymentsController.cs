@@ -60,7 +60,7 @@ namespace TPTB2.Server.Controllers
         // PUT: api/Payments/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUsers(int id, Payments payments)
+        public async Task<IActionResult> PutPayments(int id, Payments payments)
         {
             if (id != payments.Id)
             {

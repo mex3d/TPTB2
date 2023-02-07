@@ -33,10 +33,10 @@ else
                     <td>@payment.CardNumber</td>
                     <td>@payment.SecurityCode</td>
                     <td>
-                        <a href="/payment/view/@payment.Id" class="btn btn-primary">
+                        <a href="/payments/view/@payment.Id" class="btn btn-primary">
                             <span class="oi oi-book"></span>
                         </a>
-                        <a href="/payment/edit/@payment.Id" class="btn btn-warning">
+                        <a href="/payments/edit/@payment.Id" class="btn btn-warning">
                             <span class="oi oi-pencil"></span>
                         </a>
                         <button class="btn btn-danger" @onclick="@(()=>Delete(payment.Id))">

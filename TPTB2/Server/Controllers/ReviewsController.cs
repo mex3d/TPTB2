@@ -33,6 +33,8 @@ namespace TPTB2.Server.Controllers
         //public async Task<ActionResult<IEnumerable<Reviews>>> GetReviews()
         public async Task<IActionResult> GetReviews()
         {
+            //to be deleted or comment after testing global error handling
+            //return NotFound();
             //Refactored
             //return await _context.Reviews.ToListAsync();
             var reviews = await _unitOfWork.Reviews.GetAll();

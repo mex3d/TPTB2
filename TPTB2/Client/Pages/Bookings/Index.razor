@@ -2,6 +2,7 @@
 @inject HttpClient _client
 @inject IJSRuntime js
 @attribute [Authorize]
+@implements IDisposable
 
 <h3>Current Bookings</h3>
 <a href="/bookings/create" class="btn btn-secondary">
@@ -16,36 +17,36 @@
 }
 else
 {
-    <table class="table table-responsive">
-        <thead>
+    <table class="table table-responsive" id="bookingsTable">
+    <thead>
+        <tr>
+            <th>TotalCost</th>
+            <th>DateIn</th>
+            <th>DateOut</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var booking in Bookings)
+        {
             <tr>
-                <th>TotalCost</th>
-                <th>DateIn</th>
-                <th>DateOut</th>
+                <td>@booking.TotalCost</td>
+                <td>@booking.DateIn</td>
+                <td>@booking.DateOut</td>
+                <td>
+                    <a href="/bookings/view/@booking.Id" class="btn btn-primary">
+                        <span class="oi oi-book"></span>
+                    </a>
+                    <a href="/bookings/edit/@booking.Id" class="btn btn-warning">
+                        <span class="oi oi-pencil"></span>
+                    </a>
+                    <button class="btn btn-danger" @onclick="@(()=>Delete(booking.Id))">
+                        <span class="oi oi-delete"></span>
+                    </button>
+                </td>
             </tr>
-        </thead>
-        <tbody>
-            @foreach (var booking in Bookings)
-            {
-                <tr>
-                    <td>@booking.TotalCost</td>
-                    <td>@booking.DateIn</td>
-                    <td>@booking.DateOut</td>
-                    <td>
-                        <a href="/booking/view/@booking.Id" class="btn btn-primary">
-                            <span class="oi oi-book"></span>
-                        </a>
-                        <a href="/booking/edit/@booking.Id" class="btn btn-warning">
-                            <span class="oi oi-pencil"></span>
-                        </a>
-                        <button class="btn btn-danger" @onclick="@(()=>Delete(booking.Id))">
-                            <span class="oi oi-delete"></span>
-                        </button>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+        }
+    </tbody>
+</table>
 }
 <br />
 
@@ -66,5 +67,15 @@ else
             await _client.DeleteAsync($"{Endpoints.BookingsEndpoint}/{bookingId}");
             await OnInitializedAsync();
         }
+    }
+
+    protected async override Task OnAfterRenderAsync(bool firstRender)
+    {
+        await js.InvokeVoidAsync("AddDataTable", "#bookingsTable");
+    }
+
+    public void Dispose()
+    {
+        js.InvokeVoidAsync("AddDataTable", "#bookingsTable");
     }
 }
